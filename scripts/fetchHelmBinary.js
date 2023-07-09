@@ -26,12 +26,19 @@ const hashmap = {
   },
 }
 
+function getExt(os) {
+  if (os === 'windows') return '.zip'
+  return 'tar.gz'
+}
+
 async function downloadHelmBinary(version, os, arch, downloadLocation) {
   console.log(
     `Downloading binary for version = ${version}, os = ${os}, arch = ${arch}, to download folder = ${downloadLocation}`,
   )
-  const downloadUrl = `https://get.helm.sh/helm-v${version}-${os}-${arch}.tar.gz`
-  const file = createWriteStream(join(downloadLocation, 'helm.tar.gz'))
+  const downloadUrl = `https://get.helm.sh/helm-v${version}-${os}-${arch}.${getExt(
+    os,
+  )}`
+  const file = createWriteStream(join(downloadLocation, `helm.${getExt(os)}`))
   try {
     await new Promise((resolve, reject) => {
       try {
@@ -50,9 +57,11 @@ async function downloadHelmBinary(version, os, arch, downloadLocation) {
 }
 
 async function verifyHelmBinary(os, arch, downloadFolder) {
-  const fileContents = await readFile(join(downloadFolder, 'helm.tar.gz'))
+  const fileContents = await readFile(
+    join(downloadFolder, `helm.${getExt(os)}`),
+  )
   const hash = createHash('sha256').update(fileContents).digest('hex')
-  return hash == hashmap[os][arch]
+  return hash === hashmap[os][arch]
 }
 
 function getOsType() {
@@ -70,23 +79,25 @@ function getArch() {
   }
 }
 
-async function extractTar(downloadFolder) {
-  await pipelineAsync(
-    createReadStream(join(downloadFolder, 'helm.tar.gz')),
-    createGunzip(),
-    extract(downloadFolder, {
-      ignore(name) {
-        if (name.endsWith('/')) return false
-        if (name.endsWith('helm')) return false
-        if (name.endsWith('.exe')) return false
-        return true
-      },
-    }),
-  )
+async function extractTar(downloadFolder, os) {
+  if (os !== 'windows') {
+    await pipelineAsync(
+      createReadStream(join(downloadFolder, 'helm.tar.gz')),
+      createGunzip(),
+      extract(downloadFolder, {
+        ignore(name) {
+          if (name.endsWith('/')) return false
+          if (name.endsWith('helm')) return false
+          if (name.endsWith('.exe')) return false
+          return true
+        },
+      }),
+    )
+  }
 }
 
-async function cleanUp(downloadFolder) {
-  await rm(join(downloadFolder, 'helm.tar.gz'))
+async function cleanUp(downloadFolder, os) {
+  await rm(join(downloadFolder, `helm.${getExt(os)}`))
 }
 
 async function main() {
@@ -104,6 +115,9 @@ async function main() {
   await cleanUp(binFolder)
 }
 
-if (process.env.NODE_HELM_SKIP_DOWNLOAD != true) {
+if (
+  process.env.NODE_HELM_SKIP_DOWNLOAD != null &&
+  process.env.NODE_HELM_SKIP_DOWNLOAD.toLowerCase() === 'true'
+) {
   main().then(() => console.log('Finished Downloading Helm Binary'))
 }

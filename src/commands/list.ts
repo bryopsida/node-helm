@@ -1,6 +1,6 @@
 import { GlobalOptions } from '../options'
 
-export class ListOptions extends GlobalOptions {
+export interface ListOptions extends GlobalOptions {
   all?: boolean
   allNamespaces?: boolean
   sortByDate?: boolean

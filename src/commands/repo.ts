@@ -1,10 +1,10 @@
 import { GlobalOptions } from '../options'
 
-export class HelmRepoAddOptions extends GlobalOptions {}
-export class HelmRepoIndexOptions extends GlobalOptions {}
-export class HelmRepoListOptions extends GlobalOptions {}
-export class HelmRepoRemoveOptions extends GlobalOptions {}
-export class HelmRepoUpdateOptions extends GlobalOptions {}
+export interface HelmRepoAddOptions extends GlobalOptions {}
+export interface HelmRepoIndexOptions extends GlobalOptions {}
+export interface HelmRepoListOptions extends GlobalOptions {}
+export interface HelmRepoRemoveOptions extends GlobalOptions {}
+export interface HelmRepoUpdateOptions extends GlobalOptions {}
 
 export interface RepoCommandExecutor {
   add(options: HelmRepoAddOptions): Promise<any>

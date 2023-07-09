@@ -1,6 +1,6 @@
 import { GlobalOptions } from '../options'
 
-export class StatusOptions extends GlobalOptions {
+export interface StatusOptions extends GlobalOptions {
   showDescending?: boolean
   showResources?: boolean
   revision?: number
