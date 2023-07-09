@@ -14,5 +14,17 @@ export enum GetSubCommand {
 }
 
 export interface GetCommandExecutor {
-    get(subCommand: GetSubCommand, options: GetOptions): Promise<string>
+    (subCommand: GetSubCommand, options: GetOptions): Promise<string>
+}
+
+export class GetCommand {
+    public readonly get: GetCommandExecutor
+
+    constructor() {
+        this.get = this.getFunc
+    }
+
+    private getFunc(subCommand: GetSubCommand, options: GetOptions): Promise<string> {
+        return Promise.resolve('')
+    }
 }

@@ -26,5 +26,17 @@ export interface HelmRelease {
 }
 
 export interface ListCommandExecutor {
-    list(listOptions: ListOptions): Promise<Array<HelmRelease>>
+    (listOptions: ListOptions): Promise<Array<HelmRelease>>
+}
+
+export class ListCommand {
+    public readonly list: ListCommandExecutor
+
+    constructor() {
+        this.list = this.listFunc
+    }
+
+    private listFunc(listOptions: ListOptions): Promise<Array<HelmRelease>> {
+        return Promise.resolve([])
+    }
 }
