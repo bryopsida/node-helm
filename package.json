@@ -1,0 +1,15 @@
+{
+  "name": "node-helm",
+  "version": "0.1.0",
+  "description": "Node.JS bindings for helm",
+  "main": "dist/lib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node ./scripts/fetchHelmBinary.js"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tar-fs": "^3.0.4"
+  }
+}
