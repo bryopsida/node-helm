@@ -26,7 +26,6 @@ const hashmap = {
     }
 }
 
-console.log('Fetching helm binary')
 
 
 async function downloadHelmBinary(version, os, arch, downloadLocation) {
@@ -87,6 +86,7 @@ async function cleanUp(downloadFolder) {
 } 
 
 async function main() {
+    console.log('Fetching helm binary')
     const binFolder = resolve('./bin')
     await mkdir(binFolder, {
         recursive: true
@@ -99,4 +99,6 @@ async function main() {
     await cleanUp(binFolder)
 }
 
-main().then(() => console.log('Finished Downloading Helm Binary'))
+if(process.env.NODE_HELM_SKIP_DOWNLOAD != true) {
+    main().then(() => console.log('Finished Downloading Helm Binary'))
+}
