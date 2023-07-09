@@ -7,7 +7,7 @@
     "test": "jest --coverage",
     "lint": "eslint --ext .ts src/ && prettier --check .",
     "lint:fix": "eslint --ext .ts src/ --fix && prettier --write .",
-    "build": "node_modules/typescript/bin/tsc --project ./",
+    "build": "npx tsc --project ./",
     "clean": "rm -fr build",
     "prepare": "npm run build",
     "build:docs": "typedoc src/lib.ts",
