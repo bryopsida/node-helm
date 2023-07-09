@@ -1,6 +1,6 @@
 import { GlobalOptions } from '../options'
 
-export class GetOptions extends GlobalOptions {
+export interface GetOptions extends GlobalOptions {
   revision: number
   template: string
 }

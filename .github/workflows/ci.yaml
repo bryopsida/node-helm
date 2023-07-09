@@ -11,6 +11,8 @@ jobs:
   validate-node:
     name: 'Validate'
     uses: curium-rocks/flows/.github/workflows/node-ts.yml@main
+    with:
+      os: '["ubuntu-latest", "macos-latest", "windows-latest"]'
     permissions:
       contents: read
       actions: read
