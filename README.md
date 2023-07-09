@@ -8,45 +8,51 @@ If you wish to validate how the binary is downloaded see: [here](https://raw.git
 
 To install this library run `npm install --save @bryopsida/helm`
 
-In your app, 
+In your app,
 
 Start by adding the import
+
 ### CommonJS
-``` javascript 
+
+```javascript
 const { Helm } = require('@bryopsida/helm')
 ```
 
 ### ESM
-``` javascript
+
+```javascript
 import { Helm } from '@bryopsida/helm'
 ```
 
 ### Creating an instance
 
 #### Defaults
-``` javascript
+
+```javascript
 const helm = new Helm()
 ```
 
 #### Specify helm binary
-``` javascript
+
+```javascript
 const helm = new Helm({
     binaryPath: <path to your helm3 binary>
 })
 ```
 
 ### Listing Helm Releases
-``` javascript
+
+```javascript
 const releases = await helm.list({
-    all: true,
-    allNamespaces: true
+  all: true,
+  allNamespaces: true,
 })
 console.log('==== Helm Releases ====')
 releases.forEach((release) => {
-    console.log(`Name = ${release.name}`)
-    console.log(`Namespace = ${release.namespace}`)
-    console.log(`Chart = ${release.chart}`)
-    console.log(`Status = ${release.status}`)
+  console.log(`Name = ${release.name}`)
+  console.log(`Namespace = ${release.namespace}`)
+  console.log(`Chart = ${release.chart}`)
+  console.log(`Status = ${release.status}`)
 })
 console.log('==== End Helm Releases ====')
 ```
